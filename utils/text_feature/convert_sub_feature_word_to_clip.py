@@ -65,9 +65,7 @@ def convert_h5(sub_words_h5, vid_clip_h5, sub_clip_h5, video2sub_info, pool_type
         if len(sub_sen_lengths) != len(video2sub_info[k]["sub"]):
             not_equal_cnt.append(len(video2sub_info[k]["sub"]) - len(sub_sen_lengths))
 
-        length_indices = [0, ]
-        for i in range(len(sub_sen_lengths)):
-            length_indices.append(length_indices[i] + sub_sen_lengths[i])
+        length_indices = [0] + np.cumsum(sub_sen_lengths).tolist()
 
         n_clips = len(vid_clip_h5[k])
         clip_features = np.zeros((n_clips, sub_words_features.shape[-1]), dtype=np.float32)
